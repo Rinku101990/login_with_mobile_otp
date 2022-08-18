@@ -21,6 +21,10 @@ Route::group([
         'prefix' => 'auth'
     ], function ($router) {
         Route::post('/login', [AuthController::class, 'login']);
+        // Send Varification Code...
+        Route::post('/sentcode', [AuthController::class, 'sentcode']);
+        Route::post('/verifyotp', [AuthController::class, 'verifyotp']);
+
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/refresh', [AuthController::class, 'refresh']);

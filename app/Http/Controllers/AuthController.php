@@ -16,7 +16,7 @@ class AuthController extends Controller
      * @return void
     */
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register','sentcode','verifyotp']]);
     }
     /**
      * Get a JWT via given credentials.
@@ -36,6 +36,68 @@ class AuthController extends Controller
         }
         return $this->createNewToken($token);
     }
+
+    /**
+     * Sent OTP
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function sentcode(Request $request){
+    	$validator = Validator::make($request->all(), [
+            'mobile' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $user = User::where('mobile', $request->mobile)->first();
+        if(!empty($user)){
+            if($request->mobile == $user->mobile && $user->registerAs =='user' && $user->status=='active') {
+                $otp = mt_rand(100000,999999);
+                $user->otp = $otp;
+                User::where('id',$user->id)->update(['otp'=>$otp]);
+                $message = "Your Otp is ".$otp;
+                // Update OTP in database //
+                //$user = User::create($message);
+                return response()->json([
+                    'mobile' => $request->mobile,
+                    'otp' => $message,
+                    'message'=>'Mobile OTP Created'
+                ], 201);
+            }
+        }
+    }
+
+    /**
+     * Verify OTP
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */ 
+    public function verifyotp(Request $request){
+    	$validator = Validator::make($request->all(), [
+            'mobile' => 'required',
+            'otp' => 'required|min:6|max:6',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+        $user = User::where('mobile',$request->mobile)->where('registerAs','user')->where('otp',$request->otp)->first(); 
+        if(!empty($user)){
+            if($request->mobile == $user->mobile && $user->registerAs =='user' && $user->status=='active' && $user->otp == $request->otp) {
+                if(auth()->guard('admin')->attempt(['email' => $user->email,'password' => $user->read_password,'registerAs' => 'user','status' => 'active'])){
+                    $token = auth()->attempt(['email' => $user->email,'password' => $user->read_password]);
+                    return $this->createNewToken($token);
+                }
+            }else{
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+        }else{
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+    }
+
     /**
      * Register a User.
      *
