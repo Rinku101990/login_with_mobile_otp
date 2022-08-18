@@ -12,3 +12,5 @@ Note ::
 1 - Postman screenshot in attached file.and also some backend pages screenshot in attachment.
 2 - API URL TO Access - http://127.0.0.1:8000/api/auth/defined_url_for_api in routes->api.php file
 3 - File Store at location storage->public->files
+
+
