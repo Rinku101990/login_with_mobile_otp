@@ -108,21 +108,23 @@ class AuthController extends Controller
             'name' => 'required|string|between:2,100',
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|confirmed|min:6',
+            'mobile'=>'required|max:10|unique:users'
         ]);
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
         }
-        $userData = ([
+        $userData = array(
             'name'=>$request->name,
             'email'=> $request->email,
-            'password'=>bcrypt($request->password),
-            'read_password'=>$request->password,
+            'password' => bcrypt($request->password),
+            'read_password' => $request->password,
             'mobile'=> $request->mobile
-        ]);
+        );
         $user = User::create($userData);
+
         return response()->json([
             'message' => 'User successfully registered',
-            'user' => $user
+            'user' => $user->makeHidden('read_password')->toArray() // Hide Particular column
         ], 201);
     }
 
