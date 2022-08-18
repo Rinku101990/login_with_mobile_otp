@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->unique();
-            $table->text('read_password');
+            $table->string('read_password');
             $table->string('otp')->nullable();
             $table->string('mobile');
             $table->enum('registerAs',['user','admin'])->default('user');
