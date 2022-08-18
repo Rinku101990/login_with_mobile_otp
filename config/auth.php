@@ -77,12 +77,6 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // Web Admin Login Custom Setup
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
-
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

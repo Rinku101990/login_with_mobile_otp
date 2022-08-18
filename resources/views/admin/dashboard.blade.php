@@ -16,7 +16,7 @@
          <!-- customar project  start -->
          <div class="col-xl-12 col-md-12">
             <div class="card">
-                <center><h4 style="margin-top: 15px !important;">Welcome To Upsquare Technologies</h4></center>
+                <center><h4 style="margin-top: 15px !important;">Welcome To Qubehealth Technologies</h4></center>
             </div>
          </div>
 

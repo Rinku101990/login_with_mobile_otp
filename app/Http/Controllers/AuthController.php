@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\File;
 use Validator;
 
 class AuthController extends Controller
@@ -49,14 +50,60 @@ class AuthController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
         }
-        $user = User::create(array_merge(
-                    $validator->validated(),
-                    ['password' => bcrypt($request->password)]
-                ));
+        $userData = ([
+            'name'=>$request->name,
+            'email'=> $request->email,
+            'password'=>bcrypt($request->password),
+            'read_password'=>$request->password,
+            'mobile'=> $request->mobile
+        ]);
+        $user = User::create($userData);
         return response()->json([
             'message' => 'User successfully registered',
             'user' => $user
         ], 201);
+    }
+
+     /**
+     * document list.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function documentslist()
+    {
+        return File::all();
+    }
+
+    /**
+     * Upload a document.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function documents(Request $request) 
+    {
+        $validator = Validator::make($request->all(), [
+            'file' => ['required', 'mimes:jpeg,jpg,png,svg'],
+            'name' => ['required'],
+        ]);
+    
+        $name = rand().time().'.'.$request->file('file')->getClientOriginalExtension();
+        $path = $request->file('file')->store('public/files');
+
+        try{
+            $files = new File;
+            $files->name = $name;            
+            $files->path = $path;
+            if($files->save()){
+                return response()->json([
+                    'message' => 'File Created Successfully',
+                    'file' => $files
+                ], 201);
+            }
+        }catch(\Exception $e){
+            dd($e);
+        }
     }
 
     /**

@@ -91,16 +91,16 @@
                   </li>
                 
                   <li class="sidenav-item">
-                     <a href="{{url('admin/category')}}" class="sidenav-link">
+                     <a href="{{url('admin/user')}}" class="sidenav-link">
                         <i class="sidenav-icon feather icon-layers"></i>
-                        <div>Categories</div>
+                        <div>Users</div>
                      </a>
                   </li>
                
                   <li class="sidenav-item">
-                     <a href="{{url('admin/products')}}" class="sidenav-link">
+                     <a href="{{url('admin/document')}}" class="sidenav-link">
                         <i class="sidenav-icon feather icon-codepen"></i>
-                        <div>Products</div>
+                        <div>Documents</div>
                      </a>
                   </li>
                </ul>
@@ -123,7 +123,7 @@
                   <span class="navbar-toggler-icon"></span>
                   </button>
                   <div class="navbar-collapse collapse" id="layout-navbar-collapse">
-                  <center><h4 style="padding-top: 16px;color: #ffff;text-align: center;">Upsquare Technologies</h4></center>
+                  <center><h4 style="padding-top: 16px;color: #ffff;text-align: center;">Qubehealth Technologies</h4></center>
                      <!-- Divider -->
                      <hr class="d-lg-none w-100 my-2">
                      <div class="navbar-nav align-items-lg-center ml-auto">

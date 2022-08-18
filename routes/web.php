@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\DocumentController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,13 +20,13 @@ Route::get('/', function () {
 });
 
 // Admin Routes
-
 Route::get('admin/login',[App\Http\Controllers\Admin\AdminAuthController::class, 'getLogin'])->name('adminLogin');
 Route::post('admin/login',[App\Http\Controllers\Admin\AdminAuthController::class, 'postLogin'])->name('adminLoginPost');
+Route::post('admin/otp-verify',[App\Http\Controllers\Admin\AdminAuthController::class, 'otpVerify'])->name('adminLoginOtpVerify');
 Route::get('admin/logout',[App\Http\Controllers\Admin\AdminAuthController::class, 'logout'])->name('adminLogout');
 
 Route::group(['prefix' => 'admin','middleware' => 'adminauth'], function () {
     Route::get('dashboard',[App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::resource('category', CategoryController::class);
-    Route::resource('products',ProductController::class);
+    Route::resource('document', DocumentController::class);
+    Route::resource('user', UserController::class);
 });

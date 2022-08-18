@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Login_With_Mobile_OTP'),
 
     /*
     |--------------------------------------------------------------------------

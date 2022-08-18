@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Categories;
+use App\Models\File;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class CategoryController extends Controller
+class DocumentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $getcategory = Categories::get();
-        return view('admin/category/index',compact('getcategory'));
+        $getfile = File::get();
+        return view('admin/files/index',compact('getfile'));
     }
 
     /**
@@ -83,12 +84,13 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         try{
-            $res = Categories::where('id',$id)->first();          
+            $res = File::where('id',$id)->first();          
             if($res->delete()){
-                return response()->json(['status'=>true,'message' => 'Category Deleted Successfully']);
+                return response()->json(['status'=>true,'message' => 'File Deleted Successfully']);
             }else{
-                return response()->json(['status'=>false,'message' => 'Category Not Deleted Try Again !!']);
+                return response()->json(['status'=>false,'message' => 'File Not Deleted Try Again !!']);
             } 
+            
         }catch(\Exception $e){
             dd($e);
         }

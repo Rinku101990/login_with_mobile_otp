@@ -87,7 +87,11 @@
                justify-content: center; " >
                <div class="col-md-4" style="padding-left: 0px;">
                   <div class="login-form">
-                     <form action="{{ route('adminLoginPost') }}" method="post">
+                     @if(\Session::get('action')=='1')
+                        <form action="{{ route('adminLoginOtpVerify') }}" method="post">
+                     @else
+                        <form action="{{ route('adminLoginPost') }}" method="post">
+                     @endif
                         <center>
                            <h2 style="color:#111"><b>Login Panel</b></h2>
                         </center>
@@ -115,36 +119,42 @@
                         <div class="input-group mb-3">
                            <div class="input-group-prepend">
                               <span class="input-group-text">
-                              <i class="fas fa-user nc-single-02"></i>
+                              <i class="fas fa-phone-alt nc-single-02"></i>
                               </span>
                            </div>
-                           <input type="email" class="form-control" name="email" placeholder="Email Address" required="required">
+                           <input type="text" class="form-control" name="mobile" placeholder="Enter registered mobile number" required="required" value="{{old('mobile')}}">
                            @if ($errors->has('email'))
                            <span class="help-block font-red-mint">
                            <strong>{{ $errors->first('email') }}</strong>
                            </span>
                            @endif
                         </div>
+                        @if(\Session::get('action')=='1')
                         <div class="input-group mb-3">
                            <div class="input-group-prepend">
                               <span class="input-group-text">
                               <i class="fas fa-key nc-single-02"></i>
                               </span>
                            </div>
-                           <input type="password" class="form-control" name="password" placeholder="Password" required="required">
-                           @if ($errors->has('password'))
+                           <input type="text" class="form-control" name="otp" placeholder="Enter Otps">
+                           @if ($errors->has('otp'))
                            <span class="help-block font-red-mint">
-                           <strong>{{ $errors->first('password') }}</strong>
+                           <strong>{{ $errors->first('otp') }}</strong>
                            </span>
                            @endif
                         </div>
+                        @endif
                         <div class="form-group">
-                           <button type="submit" class="btn btn-primary btn-block">Login</button>
+                           @if(\Session::get('action')=='1')
+                              <button type="submit" class="btn btn-primary btn-block">Verify Code</button>
+                           @else
+                              <button type="submit" class="btn btn-primary btn-block">Send Code</button>
+                           @endif
                         </div>
                         <br>&nbsp;
                      </form>
                      <br>
-                     <p class="copyright" align="center">Copyright © <?php echo date('Y');?> <a href="{{url('/')}}">UpSquare</a>. All Rights Reserved.</p>
+                     <p class="copyright" align="center">Copyright © <?php echo date('Y');?> <a href="{{url('/')}}">Qube Health</a>. All Rights Reserved.</p>
                   </div>
                </div>
             </div>
